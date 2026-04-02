@@ -1,11 +1,6 @@
-FROM postgres:17
+FROM postgres:17-alpine
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        postgis \
-        postgresql-17-postgis-3 \
-        postgresql-17-postgis-3-scripts \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache postgis
 
 COPY entrypoint.sh /usr/local/bin/elbgoods-entrypoint.sh
 COPY init/ /docker-entrypoint-initdb.d/
