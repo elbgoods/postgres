@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker buildx build:*)",
+      "Bash(docker buildx:*)",
+      "Bash(2>&1)"
+    ]
+  }
+}

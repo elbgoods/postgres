@@ -5,7 +5,10 @@ RUN apt-get update \
         postgis \
         postgresql-17-postgis-3 \
         postgresql-17-postgis-3-scripts \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && find /usr/share/doc -depth -type f ! -name copyright -delete \
+    && find /usr/share/man /usr/share/info /usr/share/locale -depth -type f -delete \
+    && find /usr/share/doc /usr/share/man /usr/share/info /usr/share/locale -empty -delete
 
 COPY entrypoint.sh /usr/local/bin/elbgoods-entrypoint.sh
 COPY init/ /docker-entrypoint-initdb.d/
