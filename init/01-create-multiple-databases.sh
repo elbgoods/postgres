@@ -1,7 +1,7 @@
 #!/bin/bash
-# Creates additional databases listed in POSTGRES_MULTIPLE_DATABASES (comma-separated).
+# Creates databases listed in POSTGRES_EXTRA_DATABASES (comma-separated).
+# These are the values after the first in a comma-separated POSTGRES_DB.
 # Each database is owned by POSTGRES_USER and gets the PostGIS extension.
-# The primary database defined in POSTGRES_DB is already created by the base image.
 
 set -euo pipefail
 
@@ -19,14 +19,12 @@ create_database() {
 EOSQL
 }
 
-if [ -n "${POSTGRES_MULTIPLE_DATABASES:-}" ]; then
-    echo "Creating additional databases: $POSTGRES_MULTIPLE_DATABASES"
-    IFS=',' read -ra DATABASES <<< "$POSTGRES_MULTIPLE_DATABASES"
+if [ -n "${POSTGRES_EXTRA_DATABASES:-}" ]; then
+    echo "Creating extra databases: $POSTGRES_EXTRA_DATABASES"
+    IFS=',' read -ra DATABASES <<< "$POSTGRES_EXTRA_DATABASES"
     for db in "${DATABASES[@]}"; do
         db="$(echo -e "${db}" | tr -d '[:space:]')"
-        if [ "$db" != "$POSTGRES_DB" ]; then
-            create_database "$db"
-        fi
+        [ -n "$db" ] && create_database "$db"
     done
 fi
 

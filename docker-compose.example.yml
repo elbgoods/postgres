@@ -5,10 +5,8 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_DB: eventbackend
+      POSTGRES_DB: eventbackend  # comma-separate to create multiple: eventbackend,otherapp
       POSTGRES_USER: eventbackend
-      # Optional: create additional databases (comma-separated)
-      # POSTGRES_MULTIPLE_DATABASES: myapp,otherapp
     command: >
       postgres
       -c shared_buffers=256MB

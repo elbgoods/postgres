@@ -28,19 +28,19 @@ services:
 
 | Variable | Description |
 |---|---|
-| `POSTGRES_DB` | Primary database name (created automatically) |
+| `POSTGRES_DB` | Database name(s) — comma-separated for multiple (first is primary) |
 | `POSTGRES_USER` | Database superuser |
 | `POSTGRES_PASSWORD` | Password (optional when using `trust` auth) |
 | `POSTGRES_HOST_AUTH_METHOD` | Auth method (e.g. `trust`, `md5`, `scram-sha-256`) |
-| `POSTGRES_MULTIPLE_DATABASES` | Comma-separated list of additional databases to create |
 
 ## Multiple Databases
 
+Pass a comma-separated list to `POSTGRES_DB`. The first value is the primary database; the rest are created automatically.
+
 ```yaml
 environment:
-  POSTGRES_DB: primary
+  POSTGRES_DB: primary,secondary,analytics
   POSTGRES_USER: myuser
-  POSTGRES_MULTIPLE_DATABASES: secondary,analytics
 ```
 
 All databases are owned by `POSTGRES_USER` and have PostGIS enabled.
