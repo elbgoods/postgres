@@ -5,6 +5,7 @@ RUN apt-get update \
         postgis \
         postgresql-17-postgis-3 \
         postgresql-17-postgis-3-scripts \
+        postgresql-17-pgvector \
     && rm -rf /var/lib/apt/lists/* \
     && find /usr/share/doc -depth -type f ! -name copyright -delete \
     && find /usr/share/man /usr/share/info /usr/share/locale -depth -type f -delete \
