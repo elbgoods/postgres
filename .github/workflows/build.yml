@@ -83,8 +83,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    outputs:
-      digest: ${{ steps.manifest.outputs.digest }}
 
     steps:
       - name: Download digests
@@ -118,39 +116,8 @@ jobs:
             type=sha,prefix=sha-
 
       - name: Create and push manifest
-        id: manifest
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create \
             $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
-
-          digest=$(docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }} --format '{{.Manifest.Digest}}')
-          echo "digest=$digest" >> $GITHUB_OUTPUT
-
-  release:
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: warp-ubuntu-latest-x64-2x
-    needs: merge
-    permissions:
-      contents: write
-
-    steps:
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
-          body: |
-            ## Docker Image
-
-            ```
-            ghcr.io/elbgoods/postgres:${{ github.ref_name }}
-            ```
-
-            **Digest:** `${{ needs.merge.outputs.digest }}`
-
-            ### Pull
-
-            ```bash
-            docker pull ghcr.io/elbgoods/postgres:${{ github.ref_name }}
-            ```
