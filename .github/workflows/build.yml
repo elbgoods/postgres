@@ -18,9 +18,9 @@ jobs:
       matrix:
         include:
           - platform: linux/amd64
-            runner: warp-ubuntu-2404-x64
+            runner: warp-ubuntu-2404-x64-4x
           - platform: linux/arm64
-            runner: warp-ubuntu-2404-arm64
+            runner: warp-ubuntu-2404-arm64-4x
 
     runs-on: ${{ matrix.runner }}
     permissions:
@@ -78,7 +78,7 @@ jobs:
 
   merge:
     if: github.event_name != 'pull_request'
-    runs-on: warp-ubuntu-2404-x64
+    runs-on: warp-ubuntu-2404-x64-4x
     needs: build
     permissions:
       contents: read
