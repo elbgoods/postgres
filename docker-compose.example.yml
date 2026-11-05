@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: ghcr.io/elbgoods/postgres:17
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: myapp  # comma-separate to create multiple: myapp,otherapp
+      POSTGRES_USER: myapp
+      MODE: development  # development (default) or production
+    command: >
+      postgres
+      -c shared_buffers=256MB
+      -c max_connections=200
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
