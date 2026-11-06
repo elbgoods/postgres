@@ -131,6 +131,7 @@ Tuned for a server with 8GB RAM and 4 cores. Override individual settings via `c
 | `random_page_cost` | 1.1 | Tuned for SSD |
 | `effective_io_concurrency` | 200 | Tuned for SSD |
 | `default_statistics_target` | 100 | |
+| `jit` | off | JIT compile cost usually outweighs gains for OLTP queries; enable per session with `SET jit = on` |
 | `timezone` / `log_timezone` | UTC | |
 
 Override any setting at runtime:

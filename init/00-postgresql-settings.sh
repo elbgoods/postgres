@@ -19,6 +19,9 @@ random_page_cost               = 1.1
 effective_io_concurrency       = 200
 default_statistics_target      = 100
 
+# JIT off: compile overhead outweighs gains for typical OLTP queries
+jit                            = off
+
 # Locale / time
 timezone                       = 'UTC'
 log_timezone                   = 'UTC'
